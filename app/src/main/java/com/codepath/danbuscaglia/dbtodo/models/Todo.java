@@ -16,6 +16,9 @@ public class Todo extends Model {
     @Column(name = "Priority", index = true)
     public int priority;
 
+    @Column(name = "Finished")
+    public boolean finished;
+
     public Todo() {
         super();
     }
@@ -24,6 +27,7 @@ public class Todo extends Model {
         super();
         this.name = name;
         this.priority = priority.value();
+        this.finished = false;
     }
 
     @Override

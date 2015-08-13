@@ -1,5 +1,6 @@
 package com.codepath.danbuscaglia.dbtodo;
 
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,10 +17,10 @@ import com.codepath.danbuscaglia.dbtodo.models.Todo;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity {
 
     ArrayList<Todo> items;
-    ArrayAdapter<Todo> itemsAdapter;
+    TodoAdapter itemsAdapter;
     ListView lvItems;
     LocalStore db;
 
@@ -28,47 +29,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = LocalStore.db();
         setContentView(R.layout.activity_main);
-        readItems();
-        itemsAdapter = new ArrayAdapter<Todo>(this,
-                android.R.layout.simple_list_item_1, items);
+        items = (ArrayList) db.all();
+        itemsAdapter = new TodoAdapter(this,items);
         lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(itemsAdapter);
-        setupListViewListener();
 
     }
 
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-
-        Todo newtodo = new Todo(etNewItem.getText().toString(), PriorityLevel.REMINDER);
-        itemsAdapter.add(newtodo);
-        etNewItem.setText("");
-        writeItems();
-    }
-
-    public void setupListViewListener() {
-        lvItems.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapter,
-                                                   View item, int pos, long id) {
-                        items.get(pos).delete();
-                        items.remove(pos);
-                        itemsAdapter.notifyDataSetChanged();
-                        return true;
-                    }
-
-                });
-
-    }
-
-    private void readItems() {
-        items = (ArrayList) db.all();
-    }
-
-    private void writeItems() {
-        for (Todo todo : items) {
-            todo.save();
+        String str = etNewItem.getText().toString();
+        if(!str.isEmpty()) {
+            Todo newtodo = new Todo(str, PriorityLevel.REMINDER);
+            newtodo.save();
+            itemsAdapter.add(newtodo);
+            etNewItem.setText("");
         }
     }
 
