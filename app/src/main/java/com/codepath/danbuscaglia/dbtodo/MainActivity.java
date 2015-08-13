@@ -10,24 +10,26 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
+import com.codepath.danbuscaglia.dbtodo.controllers.LocalStore;
+import com.codepath.danbuscaglia.dbtodo.models.PriorityLevel;
+import com.codepath.danbuscaglia.dbtodo.models.Todo;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
+    ArrayList<Todo> items;
+    ArrayAdapter<Todo> itemsAdapter;
     ListView lvItems;
+    LocalStore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = LocalStore.db();
         setContentView(R.layout.activity_main);
         readItems();
-        itemsAdapter = new ArrayAdapter<String>(this,
+        itemsAdapter = new ArrayAdapter<Todo>(this,
                 android.R.layout.simple_list_item_1, items);
         lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(itemsAdapter);
@@ -37,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
+
+        Todo newtodo = new Todo(etNewItem.getText().toString(), PriorityLevel.REMINDER);
+        itemsAdapter.add(newtodo);
         etNewItem.setText("");
         writeItems();
     }
@@ -49,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapter,
                                                    View item, int pos, long id) {
+                        items.get(pos).delete();
                         items.remove(pos);
                         itemsAdapter.notifyDataSetChanged();
-                        writeItems();
                         return true;
                     }
 
@@ -60,22 +63,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
-            items = new ArrayList<String>();
-        }
+        items = (ArrayList) db.all();
     }
 
     private void writeItems() {
-        File fileDir = getFilesDir();
-        File todoFile = new File(fileDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, items);
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Todo todo : items) {
+            todo.save();
         }
     }
 
