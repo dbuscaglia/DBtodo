@@ -5,33 +5,46 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-@Table(name = "Todos")
-public class Todo extends Model {
+@Table(name = "tbl_todo_task")
+public class TodoItemTask extends Model implements Serializable {
 
     @Column(name = "Task")
     public String name;
 
     @Column(name = "Priority", index = true)
-    public int priority;
+    public PriorityLevel priority;
+
+    @Column(name = "TaskDate")
+    public Date task_date;
 
     @Column(name = "Finished")
     public boolean finished;
 
-    public Todo() {
+    public TodoItemTask() {
         super();
     }
 
-    public Todo(String name, PriorityLevel priority){
+    public TodoItemTask(String name, PriorityLevel priority){
         super();
         this.name = name;
-        this.priority = priority.value();
+        this.priority = priority;
         this.finished = false;
+        this.task_date = new Date();
     }
 
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * Get the priority of the given TodoItemTask
+     * @return PriorityLevel
+     */
+    public PriorityLevel getPriority() {
+        return this.priority;
     }
 }

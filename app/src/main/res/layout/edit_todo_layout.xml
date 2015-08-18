@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sp_priority"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:paddingTop="18dp"
+        android:id="@+id/et_taskname"
+        android:layout_below="@+id/sp_priority"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+ />
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/btn_editdate"
+        android:layout_below="@+id/et_taskname"
+        android:src="@drawable/calendar">
+
+    </ImageButton>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:paddingTop="18dp"
+        android:text=""
+        android:id="@+id/txtDate"
+        android:layout_below="@+id/et_taskname"
+        android:layout_toRightOf="@+id/btn_editdate"
+        android:paddingLeft="20dp"
+        android:layout_toEndOf="@+id/btn_editdate" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_item"
+        android:id="@+id/btn_save"
+        android:layout_below="@+id/btn_editdate"
+        />
+
+</RelativeLayout>

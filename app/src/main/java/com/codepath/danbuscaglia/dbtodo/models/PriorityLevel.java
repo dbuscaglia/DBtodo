@@ -9,11 +9,11 @@ public enum PriorityLevel {
      *
      *
      */
-    HIGHEST("!", 0),
-    HIGH("*", 1),
-    MEDIUM("+", 2),
-    LOW("-", 3),
-    REMINDER("_", 4);
+    HIGHEST("Highest", 0),
+    HIGH("High", 1),
+    MEDIUM("Medium", 2),
+    LOW("Low", 3),
+    REMINDER("Reminder", 4);
 
     private String priority_name;
     private int priority_level;
