@@ -1,6 +1,5 @@
 package com.codepath.danbuscaglia.dbtodo;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -56,11 +55,11 @@ public class EditTodoFragment extends DialogFragment {
         setTaskName(view);
         initDatePicker(view);
         setPrioritySpinner(view);
-        setupSaveBjutton(view);
+        setupSaveButton(view);
         return view;
     }
 
-    private void setupSaveBjutton(View view) {
+    private void setupSaveButton(View view) {
         btn_Save = (Button) view.findViewById(R.id.btn_save);
         btn_Save.setOnClickListener(new Button.OnClickListener() {
             @Override

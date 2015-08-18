@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements EditTodoFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.deleteDatabase("AA_DB_NAME");
         db = LocalStore.db();
         setContentView(R.layout.activity_main);
         changeLvDataset();
