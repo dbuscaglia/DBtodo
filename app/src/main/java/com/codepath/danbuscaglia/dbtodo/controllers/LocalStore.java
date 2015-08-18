@@ -19,6 +19,6 @@ public class LocalStore implements TodoController {
     @Override
     public List<TodoItemTask> all() {
         return new Select().from(TodoItemTask.class)
-                .orderBy("Priority ASC").limit(100).execute();
+                .orderBy("ID ASC").limit(100).execute();
     }
 }

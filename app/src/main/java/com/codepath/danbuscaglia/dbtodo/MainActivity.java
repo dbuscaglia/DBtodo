@@ -29,36 +29,32 @@ public class MainActivity extends AppCompatActivity implements EditTodoFragment.
         //this.deleteDatabase("AA_DB_NAME");
         db = LocalStore.db();
         setContentView(R.layout.activity_main);
+        changeLvDataset();
+
+    }
+
+    private void changeLvDataset() {
         items = (ArrayList) db.all();
         itemsAdapter = new TodoAdapter(this,items);
         lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(itemsAdapter);
-        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.print("TEST");
-                Log.i("DEBUG", "TEST");
-                return true;
-            }
-        });
-
+        itemsAdapter.notifyDataSetInvalidated();
+        itemsAdapter.notifyDataSetChanged();
     }
-
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String str = etNewItem.getText().toString();
         if(!str.isEmpty()) {
             TodoItemTask newtodo = new TodoItemTask(str, PriorityLevel.REMINDER);
             newtodo.save();
-            itemsAdapter.add(newtodo);
             etNewItem.setText("");
+            changeLvDataset();
         }
     }
 
 
     @Override
     public void onTodoUpdated(TodoItemTask updatedTodo) {
-        updatedTodo.save();
         itemsAdapter.notifyDataSetChanged();
     }
 
